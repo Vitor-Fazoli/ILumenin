@@ -22,5 +22,20 @@
         "*.toc": true,
         "*.gz": true,
     },
-    "explorerExclude.backup": {}
+    "explorerExclude.backup": {},
+    "cSpell.language": "en,pt,pt-BR",
+    "cSpell.words": [
+        "Asus",
+        "IGCL",
+        "imread",
+        "laigter",
+        "LNVNB",
+        "numpy",
+        "pixeladas",
+        "Prewitt",
+        "Radeon",
+        "Ryzen",
+        "Scikit",
+        "Sobel"
+    ]
 }

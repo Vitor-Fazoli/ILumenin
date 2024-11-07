@@ -4,12 +4,13 @@ import cv2
 from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
 from openpyxl import load_workbook
 import skimage as ski
+import time
 
 
 def save_data(data, excel_file):
     workbook = load_workbook(filename=excel_file)
 
-    sheet = workbook['dados']
+    sheet = workbook['testes']
     indicate_column = 'A'
     next_line = 1
     while sheet[f"{indicate_column}{next_line}"].value is not None:
@@ -86,9 +87,11 @@ def err_percent(expected_image, founded_image, pixels_count):
     return abs((error_count / pixels_count) * 100 - 100)
 
 def main():
+    save_data(['image_path', 'pixels_count','size_image', 'error_percentage', 'mse', 'ncc', 'elapsed_time'], 'dados.xlsx')
     files = os.listdir('Assets/Expected')
 
     for image_path in files:
+        begin = time.time()
         sam = sam_model_registry["vit_h"](checkpoint="Assets/sam_vit_h_4b8939.pth")
         mask_generator = SamAutomaticMaskGenerator(sam)
 
@@ -111,16 +114,19 @@ def main():
 
         # MSE
         mse = ski.metrics.mean_squared_error(expected_image, founded_image)
-        print(mse)
 
         ncc = calculate_ncc(founded_image, expected_image)
-        print(ncc)
         
         error_percentage = err_percent(expected_image, founded_image, pixels_count)
         
         size_image = (str)(founded_image.shape[0]) + "x" + (str)(founded_image.shape[1]) 
+
+        end = time.time()
+
+        elapsed_time = end - begin
+
+        save_data([image_path, pixels_count,size_image, error_percentage, mse, ncc, elapsed_time], 'dados.xlsx')
         
-        save_data([image_path, pixels_count,size_image, error_percentage, mse, ncc], 'dados.xlsx')
 
 if __name__ == "__main__":
     main()
