@@ -3,20 +3,20 @@
 
 A segmentação de imagem, fundamentada em conceitos matemáticos, antecede o desenvolvimento das inteligências artificiais modernas e oferece uma vasta gama de métodos que exploram a relação entre \textit{pixels} adjacentes para identificar similaridades e descontinuidades na imagem. Segundo \citeauthorandyear{7359305} e \citeauthorandyear{ZAITOUN2015797}, essas técnicas se dividem principalmente em segmentações baseadas em camadas e em blocos, cada uma com abordagens e subcategorias específicas, como a detecção de bordas e a análise de profundidade e aparência dos objetos.
 
-Já segundo \citeauthorandyear{electronics12051199}, os métodos de segmentação de imagens podem ser organizados em três categorias principais: segmentação clássica, co-segmentação e segmentação semântica baseada em \textit{Deep Learning}. Cada uma dessas categorias aborda a segmentação com diferentes técnicas e algoritmos, cada qual voltado para necessidades específicas de processamento e aplicação. A figura \ref{fig:segmentacao} mostra esses diferentes métodos de segmentação, organizando-os em categorias principais e destacando os principais algoritmos em cada abordagem.
+Já segundo \citeauthorandyear{electronics12051199}, os métodos de segmentação de imagens podem ser organizados em três categorias principais: segmentação clássica, co-segmentação e segmentação semântica baseada em \textit{Deep Learning}. Cada uma dessas categorias aborda a segmentação com diferentes técnicas e algoritmos, cada qual voltado para necessidades específicas de processamento e aplicação. A Figura \ref{fig:segmentacao} mostra esses diferentes métodos de segmentação, organizando-os em categorias principais e destacando os principais algoritmos em cada abordagem.
 
 \FloatBarrier
 \begin{figure}[ht]
-    \caption{Diagrama criado por \citeauthorandyear{electronics12051199}}
+    \caption{Digrama de tipos de segmentação de imagem}
     \centering
-    \includegraphics[scale=0.5]{imagens/metodos_segmentacao.png}
+    \includegraphics[scale=0.6]{imagens/metodos_segmentacao.png}
     \label{fig:segmentacao}
 \end{figure}
 \FloatBarrier
 
 \section{Segmentação Baseada em Camadas}
 
-No documento feito por \citeauthorandyear{electronics12051199} A \textbf{segmentação clássica} inclui técnicas que se concentram em características locais da imagem, como bordas e regiões como citado pelos outros autores também, mas ele aborda alguns conceitos diferentes como a \textbf{co-segmentação}, que foca na extração de objetos comuns em múltiplas imagens, considerando informações de contexto para identificar objetos similares. Por fim, a \textbf{segmentação semântica com \textit{Deep Learning}} incorpora redes neurais profundas que identificam objetos com precisão ao aprender características complexas diretamente de grandes conjuntos de dados anotados.
+No documento feito por \citeauthorandyear{electronics12051199} a \textbf{segmentação clássica} inclui técnicas que se concentram em características locais da imagem, como bordas e regiões como citado pelos outros autores também, mas ele aborda alguns conceitos diferentes como a \textbf{co-segmentação}, que foca na extração de objetos comuns em múltiplas imagens, considerando informações de contexto para identificar objetos similares. Por fim, a \textbf{segmentação semântica com \textit{Deep Learning}} incorpora redes neurais profundas que identificam objetos com precisão ao aprender características complexas diretamente de grandes conjuntos de dados anotados.
 
 A segmentação baseada em camadas, conforme proposta por \citeauthorandyear{6042883}, é uma abordagem que organiza objetos em uma hierarquia de camadas, onde cada camada representa um objeto ou uma parte de objeto na imagem. Essa técnica permite que objetos sejam compostos e organizados em uma estrutura que leva em consideração tanto a aparência quanto a profundidade relativa de cada objeto na cena.
 
@@ -40,35 +40,40 @@ A integração do big data com o avanço dos hardwares modernos permitiu que a i
 
 Inserido nesse contexto e com base no artigo criado por \cite{kirillov2023segany} o modelo Segment Anything (SAM) é um novo avanço na área de segmentação de imagens, proporcionando uma abordagem generalista que visa resolver diversos problemas de segmentação utilizando diferentes tipos de dados e prompts. Com um conjunto de dados extenso e uma arquitetura inovadora, o SAM permite a criação de máscaras de segmentação em tempo real e com capacidade de generalização para novos conjuntos de dados.
 
-\subsection{Motivação e Contexto}
-
 A segmentação de imagens tem sido revolucionada pelo surgimento de métodos de \textit{deep learning}, como o Segment Anything Model (SAM), que permite uma segmentação versátil e de alta escala. A segmentação de imagem visa identificar e isolar regiões ou objetos dentro de uma imagem, o que é essencial em várias aplicações de visão computacional. Métodos convencionais, entretanto, exigiam grande quantidade de dados rotulados e intensa supervisão manual. O SAM introduziu uma abordagem de zero-shot, possibilitando segmentações precisas em novos conjuntos de dados sem a necessidade de re-treinamento, utilizando prompts como caixas delimitadoras e pontos para indicar regiões de interesse \cite{ke2023segmenthighquality}.
 
 Apesar de seu impacto, o SAM apresenta limitações ao lidar com bordas complexas e objetos finos. Para superar essas limitações, o HQ-SAM foi proposto como uma extensão de alta qualidade do SAM, incorporando um token de saída especializado e técnicas de fusão de características globais e locais para melhorar a definição das bordas e a precisão da segmentação em objetos detalhados e sobrepostos. Esses avanços garantem que o HQ-SAM preserve a flexibilidade e a generalização zero-shot do SAM original enquanto aumenta significativamente a acurácia da segmentação \cite{ke2023segmenthighquality}.
 
-\subsection{Arquitetura do SAM}
+\subsection{Visão geral do SAM}
 
 A arquitetura do SAM é composta por três principais componentes: um codificador de imagens, um codificador de prompts e um decodificador de máscaras. O codificador de imagens gera um embedding (representação) da imagem que pode ser reutilizado para diferentes prompts. O codificador de prompts permite que o SAM aceite uma variedade de entradas, como pontos, caixas delimitadoras, e até mesmo textos para identificar as áreas de interesse na imagem. O decodificador de
-máscaras, então, gera as máscaras de segmentação apropriadas a partir dessas entradas. O SAM é projetado para ser eficiente, processando prompts em tempo real.
+máscaras, então, gera as máscaras de segmentação apropriadas a partir dessas entradas. O SAM é projetado para ser eficiente, processando prompts em tempo real, isso é mostrado na Figura \ref{fig:segmentanything}
 
-\subsection{Conjunto de Dados SA-1B}
+\FloatBarrier
+\begin{figure}[ht]
+    \caption{Digrama mostrando o processo realizado pelo SAM}
+    \centering
+    \includegraphics[scale=0.5]{imagens/sam.png}
+
+    Fonte: https://github.com/facebookresearch/segment-anything?tab=readme-ov-file 
+    \label{fig:segmentanything}
+\end{figure}
+\FloatBarrier
 
 Para treinar o SAM, foi desenvolvido o conjunto de dados SA-1B, que contém mais de 1 bilhão de máscaras de segmentação provenientes de 11 milhões de imagens. Essas imagens são diversas, de alta resolução, e foram obtidas respeitando
 questões de privacidade. Esse conjunto de dados é, até o momento, o maior já construído para a tarefa de segmentação, superando os bancos de dados existentes em termos de diversidade e volume. O SAM é capaz de gerar máscaras de
 segmentação automaticamente a partir dessas imagens, tornando-se uma ferramenta poderosa para a criação de novos conjuntos de dados e modelos de visão computacional.
 
-\subsection{Aplicações e Resultados}
-
 O Segment Anything Model (SAM) foi amplamente testado em tarefas de segmentação, como a segmentação de objetos a partir de pontos, detecção de bordas e segmentação de objetos sobrepostos, demonstrando forte desempenho e flexibilidade. Em cenários complexos, o SANeRF-HQ aprimora o SAM para segmentação em 3D de alta qualidade, utilizando prompts e campos de densidade para garantir consistência entre múltiplas visualizações. Os resultados mostram uma melhoria significativa em relação aos métodos anteriores, mantendo generalização zero-shot e alta acurácia ao longo de diferentes conjuntos de dados \cite{liu2024sanerfhqsegmentnerfhigh}.
-
-\subsection{Comparações com Métodos Tradicionais}
 
 O SAM apresenta várias vantagens em relação a métodos tradicionais de segmentação, como o Crescimento de Regiões. Enquanto os métodos tradicionais exigem parâmetros e pré-processamento mais específicos para funcionar corretamente, o SAM, por meio de sua arquitetura flexível e escalável, permite segmentação em uma ampla gama de imagens com menos intervenção manual. Além
 disso, sua capacidade de processar múltiplas máscaras para um único prompt o torna eficaz para cenários onde a ambiguidade está presente, como a detecção de partes de objetos sobrepostos.
 
 \section{Trabalhos Correlatos}
 
-Nesta seção são apresentados os trabalhos correlatos ao proposto neste trabalho
+O campo da visão computacional tem experimentado avanços significativos, especialmente nas áreas de segmentação de imagens e estimação de profundidade monocular. Com o advento do \textit{Deep Learning}, pesquisadores têm alcançado resultados expressivos em aplicações como diagnóstico médico, navegação autônoma e reconstrução em três dimensões.
+
+Nesta seção, será apresentado os trabalhos mais relevantes que fundamentam nossa proposta, estabelecendo o estado da arte atual e identificando oportunidades de contribuição para o avanço do campo. A seguir, são discutidos os principais trabalhos que influenciaram diretamente nossa abordagem.
 
 \subsection{Segmentation by grouping junctions}
 

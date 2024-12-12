@@ -90,42 +90,44 @@ def main():
     save_data(['image_path', 'pixels_count','size_image', 'error_percentage', 'mse', 'ncc', 'elapsed_time'], 'dados.xlsx')
     files = os.listdir('Assets/Expected')
 
-    for image_path in files:
-        begin = time.time()
-        sam = sam_model_registry["vit_h"](checkpoint="Assets/sam_vit_h_4b8939.pth")
-        mask_generator = SamAutomaticMaskGenerator(sam)
+    #for image_path in files:
+    image_path = 'Assets\Images\nightmare-idle.png'
 
-        image = cv2.imread('Assets/Images/' + image_path)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    begin = time.time()
+    sam = sam_model_registry["vit_h"](checkpoint="Assets/sam_vit_h_4b8939.pth")
+    mask_generator = SamAutomaticMaskGenerator(sam)
 
-        masks = mask_generator.generate(image)
-        founded_image = generate_mask(masks)
-        
-        expected_image = cv2.imread('Assets/Expected/' + image_path)
+    image = cv2.imread('Assets/Images/' + image_path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-        #Passando as duas imagens para um mesmo padrão de cores
-        founded_image = cv2.cvtColor(founded_image, cv2.COLOR_BGR2RGB)
-        expected_image = cv2.cvtColor(expected_image, cv2.COLOR_BGR2RGB)
-       
-        # Normalizando as imagens
-        founded_image = founded_image.astype(np.float32) / 255.0
-        expected_image = expected_image.astype(np.float32) / 255.0
-        pixels_count = founded_image.shape[0] * founded_image.shape[1]
+    masks = mask_generator.generate(image)
+    founded_image = generate_mask(masks)
+    
+    expected_image = cv2.imread('Assets/Expected/' + image_path)
 
-        # MSE
-        mse = ski.metrics.mean_squared_error(expected_image, founded_image)
+    #Passando as duas imagens para um mesmo padrão de cores
+    founded_image = cv2.cvtColor(founded_image, cv2.COLOR_BGR2RGB)
+    expected_image = cv2.cvtColor(expected_image, cv2.COLOR_BGR2RGB)
+    
+    # Normalizando as imagens
+    founded_image = founded_image.astype(np.float32) / 255.0
+    expected_image = expected_image.astype(np.float32) / 255.0
+    pixels_count = founded_image.shape[0] * founded_image.shape[1]
 
-        ncc = calculate_ncc(founded_image, expected_image)
-        
-        error_percentage = err_percent(expected_image, founded_image, pixels_count)
-        
-        size_image = (str)(founded_image.shape[0]) + "x" + (str)(founded_image.shape[1]) 
+    # MSE
+    mse = ski.metrics.mean_squared_error(expected_image, founded_image)
 
-        end = time.time()
+    ncc = calculate_ncc(founded_image, expected_image)
+    
+    error_percentage = err_percent(expected_image, founded_image, pixels_count)
+    
+    size_image = (str)(founded_image.shape[0]) + "x" + (str)(founded_image.shape[1]) 
 
-        elapsed_time = end - begin
+    end = time.time()
 
-        save_data([image_path, pixels_count,size_image, error_percentage, mse, ncc, elapsed_time], 'dados.xlsx')
+    elapsed_time = end - begin
+
+    save_data([image_path, pixels_count,size_image, error_percentage, mse, ncc, elapsed_time], 'dados.xlsx')
         
 
 if __name__ == "__main__":

@@ -36,6 +36,7 @@
         "Radeon",
         "Ryzen",
         "Scikit",
-        "Sobel"
+        "Sobel",
+        "SSIM"
     ]
 }
